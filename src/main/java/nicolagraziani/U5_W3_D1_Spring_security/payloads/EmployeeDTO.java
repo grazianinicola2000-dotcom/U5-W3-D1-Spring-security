@@ -16,6 +16,10 @@ public record EmployeeDTO(
         String surname,
         @NotBlank(message = "L'email è un campo obbligatorio e non può essere una Stringa vuota")
         @Email(message = "L'email inserita non è nel formato corretto")
-        String email
+        String email,
+        @NotBlank(message = "La password è obbligatoria")
+        @Size(min = 4, message = "La password deve avere almeno 4 caratteri")
+        // @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{4,}$", message = "La password deve contenere almeno una maiuscola, una minuscola,....")
+        String password
 ) {
 }

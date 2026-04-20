@@ -32,11 +32,15 @@ public class Employee {
     @Column(name = "avatar_img_url")
     private String avatarImg;
 
-    public Employee(String username, String name, String surname, String email) {
+    @Column(nullable = false)
+    private String password;
+
+    public Employee(String username, String name, String surname, String email, String password) {
         this.username = username;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.avatarImg = "https://ui-avatars.com/api/?" + name + "=" + surname;
+        this.password = password;
     }
 }

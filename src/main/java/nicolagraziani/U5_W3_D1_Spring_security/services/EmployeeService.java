@@ -32,7 +32,7 @@ public class EmployeeService {
         if (this.emplyeeRepository.existsByUsername(body.username())) {
             throw new BadRequestException("L'username " + body.username() + " è già in uso!");
         }
-        Employee newEmployee = new Employee(body.username(), body.name(), body.surname(), body.email());
+        Employee newEmployee = new Employee(body.username(), body.name(), body.surname(), body.email(), body.password());
         this.emplyeeRepository.save(newEmployee);
         log.info("Il dipendente {} {} è stato registrato correttamente", body.surname(), body.name());
         return newEmployee;
@@ -75,4 +75,14 @@ public class EmployeeService {
         log.info("Il dipendente {} {} è stato eliminato correttamente", found.getSurname(), found.getName());
     }
 
+    public boolean existsByEmail(String email) {
+        if (!this.emplyeeRepository.existsByEmail(email)) {
+            throw new NotFoundException("L'email " + email + " non esiste");
+        }
+        return this.emplyeeRepository.existsByEmail(email);
+    }
+
+    public Employee findByEmail(String email) {
+        return this.emplyeeRepository.findByEmail(email);
+    }
 }

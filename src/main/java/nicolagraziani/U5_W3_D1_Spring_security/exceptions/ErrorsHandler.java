@@ -1,7 +1,7 @@
 package nicolagraziani.U5_W3_D1_Spring_security.exceptions;
 
-import nicolagraziani.U5_W2_D5.Corporate.travel.management.payloads.ErrorsDTO;
-import nicolagraziani.U5_W2_D5.Corporate.travel.management.payloads.ErrorsListDTO;
+import nicolagraziani.U5_W3_D1_Spring_security.payloads.ErrorsDTO;
+import nicolagraziani.U5_W3_D1_Spring_security.payloads.ErrorsListDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,8 +19,8 @@ public class ErrorsHandler {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND) // 404
-    public ErrorsDTO handleNotFoundEx(NotFoundException ex) {
-        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    public ErrorsListDTO handleNotFoundEx(NotFoundException ex) {
+        return new ErrorsListDTO(ex.getMessage(), LocalDateTime.now(), ex.getErrors());
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -35,5 +35,11 @@ public class ErrorsHandler {
     public ErrorsDTO handleGenericEx(Exception ex) {
         ex.printStackTrace();
         return new ErrorsDTO("Errore del server, stiamo lavorando per voi...", LocalDateTime.now());
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
+    public ErrorsDTO handleUnauthorizedEx(UnauthorizedException ex) {
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 }

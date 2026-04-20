@@ -2,7 +2,7 @@ package nicolagraziani.U5_W3_D1_Spring_security.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import nicolagraziani.U5_W2_D5.Corporate.travel.management.enums.TravelState;
+import nicolagraziani.U5_W3_D1_Spring_security.enums.TravelState;
 
 import java.time.LocalDate;
 import java.util.UUID;
