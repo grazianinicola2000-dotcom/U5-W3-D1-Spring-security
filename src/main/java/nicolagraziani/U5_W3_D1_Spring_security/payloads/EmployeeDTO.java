@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 public record EmployeeDTO(
         @NotBlank(message = "L'Username è un campo obbligatorio e non può essere una Stringa vuota")
-        @Size(min = 2, max = 13, message = "L'username deve essere compreso tra 2 e 13 caratteri")
+        @Size(min = 2, max = 20, message = "L'username deve essere compreso tra 2 e 13 caratteri")
         String username,
         @NotBlank(message = "Il nome è un campo obbligatorio e non può essere una Stringa vuota")
         @Size(min = 2, max = 30, message = "Il nome deve essere compreso tra 2 e 30 caratteri")

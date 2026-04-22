@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,10 +19,12 @@ import java.util.UUID;
 @Slf4j
 public class EmployeeService {
 
-    private EmplyeeRepository emplyeeRepository;
+    private final PasswordEncoder bcrypt;
+    private final EmplyeeRepository emplyeeRepository;
 
-    public EmployeeService(EmplyeeRepository emplyeeRepository) {
+    public EmployeeService(EmplyeeRepository emplyeeRepository, PasswordEncoder bcrypt) {
         this.emplyeeRepository = emplyeeRepository;
+        this.bcrypt = bcrypt;
     }
 
     //    SAVE EMPLOYEE
@@ -32,7 +35,7 @@ public class EmployeeService {
         if (this.emplyeeRepository.existsByUsername(body.username())) {
             throw new BadRequestException("L'username " + body.username() + " è già in uso!");
         }
-        Employee newEmployee = new Employee(body.username(), body.name(), body.surname(), body.email(), body.password());
+        Employee newEmployee = new Employee(body.username(), body.name(), body.surname(), body.email(), this.bcrypt.encode(body.password()));
         this.emplyeeRepository.save(newEmployee);
         log.info("Il dipendente {} {} è stato registrato correttamente", body.surname(), body.name());
         return newEmployee;

@@ -7,6 +7,7 @@ import nicolagraziani.U5_W3_D1_Spring_security.payloads.ReservationDTO;
 import nicolagraziani.U5_W3_D1_Spring_security.services.ReservationService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class ReservationController {
 
     //    GET ALL
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('SUPERADMIN', 'ADMIN')")
     public Page<Reservation> findAll(@RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "20") int size,
                                      @RequestParam(defaultValue = "requestDate") String sortBy) {
