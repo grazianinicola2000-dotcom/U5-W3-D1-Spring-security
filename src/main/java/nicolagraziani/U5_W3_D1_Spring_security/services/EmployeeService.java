@@ -6,6 +6,7 @@ import nicolagraziani.U5_W3_D1_Spring_security.exceptions.BadRequestException;
 import nicolagraziani.U5_W3_D1_Spring_security.exceptions.NotFoundException;
 import nicolagraziani.U5_W3_D1_Spring_security.payloads.EmployeeDTO;
 import nicolagraziani.U5_W3_D1_Spring_security.repositories.EmplyeeRepository;
+import nicolagraziani.U5_W3_D1_Spring_security.tools.EmailSender;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +22,12 @@ public class EmployeeService {
 
     private final PasswordEncoder bcrypt;
     private final EmplyeeRepository emplyeeRepository;
+    private final EmailSender emailSender;
 
-    public EmployeeService(EmplyeeRepository emplyeeRepository, PasswordEncoder bcrypt) {
+    public EmployeeService(EmplyeeRepository emplyeeRepository, PasswordEncoder bcrypt, EmailSender emailSender) {
         this.emplyeeRepository = emplyeeRepository;
         this.bcrypt = bcrypt;
+        this.emailSender = emailSender;
     }
 
     //    SAVE EMPLOYEE
@@ -37,6 +40,7 @@ public class EmployeeService {
         }
         Employee newEmployee = new Employee(body.username(), body.name(), body.surname(), body.email(), this.bcrypt.encode(body.password()));
         this.emplyeeRepository.save(newEmployee);
+        this.emailSender.sendRegistrationEmail(newEmployee);
         log.info("Il dipendente {} {} è stato registrato correttamente", body.surname(), body.name());
         return newEmployee;
     }
