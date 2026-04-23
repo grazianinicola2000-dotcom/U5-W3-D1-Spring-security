@@ -27,6 +27,5 @@ public class EmailSender {
                 .queryString("text", "Ciao " + recipient.getName() + ", la tua registrazione è andata a buon fine!")
                 .asJson();
 
-        System.out.println(response.getBody());
     }
 }
